@@ -1,3 +1,29 @@
+#! /usr/bin/env python3
+#
+# PyQt5-based video-sync example for VLC Python bindings
+# Copyright (C) 2009-2010 the VideoLAN team
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+#
+"""
+This module contains a bare-bones VLC player class to play videos.
+
+Author: Saveliy Yusufov, Columbia University, sy2685@columbia.edu
+Date: 25 January 2019
+"""
+
 import os
 import sys
 import queue
@@ -5,10 +31,7 @@ import platform
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 import vlc
-from network import Connection
-from __future__ import unicode_literals
-import yt_dlp as youtube_dl
-
+from network import Client
 
 
 class MiniPlayer(QtWidgets.QMainWindow):
@@ -141,23 +164,6 @@ def main():
 
     _ = Client("localhost", 10000, data_queue)
     sys.exit(app.exec_())
-    
-def my_hook(d):
-    if d['status'] == 'finished':
-        print('Done downloading, now converting ...')
-
-ydl_opts = {
-    'download_archive': 'archive.txt',
-    'ignoreerrors': True,
-    'nooverwrites': True,
-    'format': 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best',       
-    'outtmpl': '저장 경로 템플릿',        
-    'noplaylist' : False,       
-    'progress_hooks': [my_hook],  
-}
-
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download(['http://www.youtube.com/watch?v=Lr9xbHtpAfU'])
 
 
 if __name__ == "__main__":
